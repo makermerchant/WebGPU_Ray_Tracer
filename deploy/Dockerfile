@@ -3,7 +3,8 @@
 FROM node:22-bookworm-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+# --ignore-scripts skips `prepare` (the npm library build), which the site does not need.
+RUN npm ci --ignore-scripts
 COPY . .
 RUN npm run build:site
 
