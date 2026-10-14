@@ -1,0 +1,16 @@
+# SITE_ADDRESS is a domain (Caddy obtains and renews the TLS certificate) or
+# ":80" when another reverse proxy on the host terminates TLS.
+{$SITE_ADDRESS:render.makermerchant.tech} {
+	root * /srv
+	encode zstd gzip
+	file_server
+
+	# Mirrors site/public/_headers (used by Cloudflare).
+	@hashed path /assets/* /viewer/assets/* /examples/bundle/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@weights path /oidn/weights/*
+	header @weights Content-Type application/octet-stream
+	@wasm path *.wasm
+	header @wasm Content-Type application/wasm
+	respond /_headers 404
+}

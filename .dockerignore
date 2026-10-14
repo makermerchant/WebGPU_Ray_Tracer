@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-site
+dist-viewer
+lib
+.git
+.wrangler
+.dev.vars*
+plans
